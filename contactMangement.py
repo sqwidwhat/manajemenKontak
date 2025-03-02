@@ -1,47 +1,58 @@
-"Program Manajemen Kontak"
+# Program Manajemen Kontak
 
-kontak1 = {'Nama' : "Andi", 'HP' : '0812323143', 'EMAIL' : "andi@gmail.com"}
-kontak2 = {'Nama' : "Ane", 'HP' : '0812323145', 'EMAIL' : "ane@gmail.com"}
-kontak = [kontak1, kontak2]
+def melihat_kontak():
+    if kontak:
+        print("\nDaftar Kontak:")
+        for idx, item in enumerate(kontak, start=1):
+            print(f'{idx}. {item["Nama"]} ({item["HP"]} | {item["EMAIL"]})')
+    else:
+        print("\nKontak Kosong")
+        return 1
 
+def menambah_kontak():
+    nama = input("Masukkan nama kontak baru: ")
+    hp = input("Masukkan nomor HP: ")
+    email = input("Masukkan email: ")
+    kontak.append({'Nama': nama, 'HP': hp, 'EMAIL': email})
+    print("\nKontak baru berhasil ditambahkan!")
+
+def menghapus_kontak():
+    if melihat_kontak() == 1:
+        return
+    try:
+        hapus_kontak = int(input("Masukkan nomor kontak yang ingin dihapus: "))
+        if 1 <= hapus_kontak <= len(kontak):
+            del kontak[hapus_kontak - 1]
+            print("\nKontak berhasil dihapus!")
+        else:
+            print("\nNomor kontak tidak valid!")
+    except ValueError:
+        print("\nMasukkan angka yang valid!")
+
+# Inisialisasi daftar kontak
+kontak = [
+    {'Nama': "Andi", 'HP': '0812323143', 'EMAIL': "andi@gmail.com"},
+    {'Nama': "Ane", 'HP': '0812323145', 'EMAIL': "ane@gmail.com"}
+]
+
+# Menu utama
 while True:
     print("\nMenu Kontak")
-    print("1. Melihat Semua Kontak")
-    print("2. Menambahakan Kontak Baru")
-    print("3. Menghapus Kontak")
-    print("4. Keluar dari Kontak")
+    print("1. Lihat Semua Kontak")
+    print("2. Tambah Kontak Baru")
+    print("3. Hapus Kontak")
+    print("4. Keluar")
 
-    pilihan = input("Maukan menu yang tersedia (1, 2, 3, dan 4): ")
+    pilihan = input("Pilih menu (1-4): ")
 
     if pilihan == '1':
-        #untuk melihat semua kontak
-        if kontak:
-            for one, item in enumerate(kontak, start=1):
-                print(f'{one}, {item["Nama"]} ({item["HP"]} | {item["EMAIL"]})')
-        else:
-            print("Kontak Kosong")
+        melihat_kontak()
     elif pilihan == '2':
-        #Menambahkan kontak baru
-        nama = input("Masukan nama kontak yang baru: ")
-        hp = input("Masukan nomor hp yang baru: ")
-        email = input("Masukan email yang baru: ")
-        kontakBaru = {'Nama' : nama, 'HP' : hp, 'EMAIL' : email}
-        kontak.append(kontakBaru)
-        print("Kontak baru berahasil ditambahkan")
-        pass
+        menambah_kontak()
     elif pilihan == '3':
-        #manghapus kontak
-        if kontak:
-            for one, item in enumerate(kontak, start=1):
-                print(f'{one}, {item["Nama"]} ({item["HP"]} | {item["EMAIL"]})')
-        else:
-            print("Kontak Kosong")
-            continue
-        hapusKontak = int(input("Masukan nomor kontak ke berapa yang ingin dihapus: "))
-        del kontak[hapusKontak-1]
-        pass
+        menghapus_kontak()
     elif pilihan == '4':
-        #Keluar dari kontak
+        print("\nKeluar dari program. Terima kasih!")
         break
     else:
-        print("Anda Memasukan Pilihan yang Salah")
+        print("\nPilihan tidak valid, coba lagi!")
