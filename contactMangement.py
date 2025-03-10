@@ -1,56 +1,75 @@
+"Program Manajemen Kontak"
+
+def membuka_kontak(path='kontak.txt'):
+    with open(path, mode='r') as file:
+        kontak = file.readlines()
+    return kontak
+
+def menyimpan_kontak(path='kontak.txt', isi=[]):
+    with open(path, mode='w') as file:
+        file.writelines(isi)
+
 class Kontak:
     def __init__(self):
-        self.kontak = []
+        self.kontak = membuka_kontak()
 
-    def meilihatKontak(self):
+    def melihat_kontak(self):
+        # melihat semua kontak
         if self.kontak:
-            for idx, i in enumerate(self.kontak, start=1):
-                print(f'{idx}. {i["Nama"]}. {i["HP"]}. {i["EMAIL"]}')
+            for num, item in enumerate(self.kontak, start=1):
+                print(f'{num}. ' + item)
         else:
-            print("Kontak kosong")
+            print("Kontak masih kosong!")
             return 1
 
-    def menambahKontak(self):
-        nama = input("Masukan nama kontak baru : ")
-        hp = input("Masukan nomor hp: ")
-        email = input("Masukan email: ")
-        self.kontak.append({'Nama' : nama, 'HP' :hp, 'EMAIL' : email})
-        print("\nKontak berhasil ditambahkan")
+    def menambah_kontak(self):
+        # menambahkan kontak
+        nama = input("Masukkan nama kontak yang baru: ")
+        HP = input("Masukkan nomor hp kontak yang baru: ")
+        email = input("Masukkan email kontak yang baru: ")
+        kontak_baru = f'{nama} ({HP}, {email})' + '\n'
+        self.kontak.append(kontak_baru)
+        print("Kontak baru berhasil ditambahkan!")
 
-    def menghapusKontak(self):
-        if self.meilihatKontak() == 1:
+    def menghapus_kontak(self):
+        # menghapus kontak
+        if self.melihat_kontak() == 1:
             return
-        try:
-            hapusKontak = int(input("Masukan nomor kontak yang ingin anda hapus: "))
-            if 1 <= hapusKontak <= len(self.kontak):#Fungsi len() dalam Python digunakan untuk menghitung jumlah elemen dalam suatu objek seperti list, string, tuple, atau dictionary.
-                del self.kontak[hapusKontak - 1]
-                print("\nKontak berhasil dihapus")
-            else:
-                print("\nNomor kontak tidak valid!")
-        except ValueError:
-            print("\nMasukan angka yang valid")
-
-def main():
-    kontak = Kontak()
-    while True:
-        print("")
-        print("1. Melihat Kontak")
-        print("2. Menambah Kontak")
-        print("3. Menghapus Kontak")
-        print("4. Keluar")
-        pilihan = input("Masukan Pilihan: ")
-
-        if pilihan == '1':
-            kontak.meilihatKontak()
-        elif pilihan == '2':
-            kontak.menambahKontak()
-        elif pilihan == '3':
-            kontak.menghapusKontak()
-        elif pilihan == '4':
-            print("\nKeluar dari program. Terima kasih!")
-            break
         else:
-            print("Pilihan yang anda masukan tidak sesuai dengan menu")
+            try:
+                i_hapus = int(input("Masukkan nomor kontak yang akan dihapus: "))
+                del self.kontak[i_hapus - 1]
+                print("Kontak yang dimaksud sudah dihapus")
+            except:
+                print("Input yang anda masukkan salah!")
 
-if __name__ == "__main__":
-    main()
+    def keluar_kontak(self):
+        menyimpan_kontak(isi=self.kontak)
+
+kontak_kantor = Kontak()
+kontak_keluarga = Kontak()
+
+while True:
+    print("\nMenu Kontak")
+    print("1. Melihat Semua Kontak")
+    print("2. Menambahkan Kontak Baru")
+    print("3. Menghapus Kontak")
+    print("4. Keluar dari Kontak")
+
+    pilihan = input("Masukkan pilihan menu kontak (1,2,3 atau 4): ")
+
+    if pilihan == '1':
+        kontak_keluarga.melihat_kontak()
+
+    elif pilihan == '2':
+        kontak_keluarga.menambah_kontak()
+
+    elif pilihan == '3':
+        kontak_keluarga.menghapus_kontak()
+
+    elif pilihan == '4':
+        # keluar dari kontak
+        kontak_keluarga.keluar_kontak()
+        break
+    else:
+        print("Anda memasukkan pilihan yang salah!")
